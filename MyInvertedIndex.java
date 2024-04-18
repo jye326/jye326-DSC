@@ -57,8 +57,8 @@ public class MyInvertedIndex{
             // for(String docID:map.keySet()){
             //     docValueList.append(docID+":"+map.get(docID)+" ");
             // }
-            for(String comb:values){
-                String[] parts = comb.split("\t");
+            for(Text val:values){
+                String[] parts = val.toString().split("\t");
                 docValueList.append(parts[0]+":"+parts[1]+" ");
             }
             context.write(key, new Text(docValueList.toString()));
