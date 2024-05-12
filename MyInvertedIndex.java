@@ -27,6 +27,14 @@ public class MyInvertedIndex{
         protected void setup(Context context) throws IOException, InterruptedException{
             FileSplit fileSplit = (FileSplit) context.getInputSplit();
             filename = fileSplit.getPath().getName();
+            Pattern pat = Pattern.compile("^\\d+-(.+)\\.txt$");
+            Matcher mat = pat.matcher(filename);//파일이름에서 제목만 따기
+            if(mat.find()){
+                filename = mat.group(1);
+            }else{
+                // 그냥 bible을 신뢰한다.
+            }
+
         }
 
         public void map(Object key, Text value, Context context)
@@ -92,8 +100,9 @@ public class MyInvertedIndex{
         job.setInputFormatClass(TextInputFormat.class);
         //TextInputFormat으로 설정하면 파일에서 Mapper로 한줄씩 들어온다
         job.setOutputFormatClass(TextOutputFormat.class);
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+        FileInputFormat.addInputPath(job, new Path(args[0]));   //  Main함수에 전달되는 첫번째 인자 : 입력파일경로
+        FileOutputFormat.setOutputPath(job, new Path(args[1])); // Main함수에 전달되는 두번째 인자 : 출력파일경로
         job.waitForCompletion(true);
     };
 
