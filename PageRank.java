@@ -1,6 +1,4 @@
 import java.io.*;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
 import java.util.*;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
@@ -8,7 +6,7 @@ import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.lib.input.*;
 import org.apache.hadoop.mapreduce.lib.output.*;
-import org.w3c.dom.Text;
+
 
 
 
@@ -63,7 +61,7 @@ public class PageRank{
 			for(int j=0; j<  StringtempAdjacency.length; j++){
 				//
 				tempAdjacency[i][j] = tempAdjacency[i][j]/(double)onesInThisRow;
-				stringAdjacency[i] = new String(stringAdjacency[i].concat(tempAdjacecy[i][j]+":"));
+				stringAdjacency[i] = new String(stringAdjacency[i].concat(tempAdjacency[i][j]+":"));
 				
 			}
 		}
@@ -115,7 +113,7 @@ public class PageRank{
 						String[] StringtempAdjacency = stringAdjacency[i].split(":");
 						//
 						for(int j=0; j< StringtempAdjacency.length; j++){
-							tempAdjacency[i][j] = Double.parseDouble(StringtempAdjacency);
+							tempAdjacency[i][j] = Double.parseDouble(StringtempAdjacency[j]);
 						}
                 }
 				//
@@ -143,7 +141,7 @@ public class PageRank{
 			//
 			String[] line = value.toString().split("\\s+");
 			IntWritable keyNode = new IntWritable(Integer.parseInt(line[0]));
-			context.write(keyNode, new Text(line[1]));
+			context.write(keyNode,new Text(line[1]));
 			String[] inLinks = line[1].split(":");
 			for(int i =0; i<inLinks.length;i++)
 			//
